@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>HistoryClick Demo</title>
+		<meta charset="utf-8" />
+
+		<script src="http://code.jquery.com/jquery-git.js"></script>
+		<script src="../jquery.history-click.js"></script>
+
+		<script>//<!--
+			$(function() {
+				var multiplyText = function(text, sum) {for(var out='', i=0; i < sum; i++){out += i + '. ' + text}; return out;};				
+				$('form').on('submit', function() {window.location.hash = '#!search?s=' + $('input[type="text"]').val(); return false;});
+				
+				
+				window.historyClick.addRoute('#!(home|about|contact)', function (params) {
+					var page = params[1];
+					
+					$('div').html( multiplyText(page + ' ', 20) );
+					
+					$('a').css('font-weight', '').filter('[href="#!' + page + '"]').css('font-weight', 'bolder')
+				});
+
+				window.historyClick.addRoute('#!search\\?s=(.*)', function (params) {
+					var search = params[1];
+					
+					$('input[type="text"]').val(search);
+					
+					$('div').html( multiplyText('Search ' + search + ' ', 20) );
+					
+					$('a').css('font-weight', '');
+				});
+				
+				window.historyClick.start();
+				
+				window.historyClick.rootAlias('#!home');
+				if (window.location.hash == '')	{
+					window.historyClick.reload();
+				}
+			});
+		//--></script>
+	</head>
+	<body>
+		<form><input type="text" value="" /> <input type="submit" value="search" /></form>
+		
+		<ul>
+			<li><a href="#!home">Home</a></li>
+			<li><a href="#!about">About me</a></li>
+			<li><a href="#!contact">Contact</a></li>
+		</ul>		
+		
+		<div style="border:1px solid green; width:250px;"></div>
+	</body>
+</html>
