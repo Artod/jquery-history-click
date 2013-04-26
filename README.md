@@ -46,7 +46,7 @@ For getting additional parameters from the hash using regular expressions:
         });
     </script>
 	
-Alice empty hash:
+Alias empty hash:
 
     <script>
         window.historyClick.rootAlias('#!home');
